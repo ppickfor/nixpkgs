@@ -416,4 +416,31 @@ rec {
     };
   };
 
+ rustdt = buildEclipseUpdateSite rec {
+    name = "rustdt-${version}";
+    version = "0.6.2";
+    owner = "RustDT";
+    repo = "rustdt.github.io";
+    rev = "13894a4aa1c05780c6a2eae3ef84a8a495348ce4";
+
+    src = fetchzip {
+      stripRoot=false;
+      url = "https://github.com/${owner}/${repo}/archive/${rev}.zip";
+      sha256 = "0xxawyivvda3d2ry3x9scghfp01ixxwir09442j8v5sl78f2hv48";
+      extraPostFetch =
+        ''
+        mv "$out/${repo}-${rev}/releases/local-repo"/* "$out/"
+        '';
+    };
+
+
+    meta = with stdenv.lib; {
+      homepage = https://rustdt.github.io/releases/;
+      description = "rust development tooling";
+      license = licenses.epl10;
+      platforms = platforms.all;
+      maintainers = [ maintainers.bjornfor ];
+    };
+  };
+
 }
